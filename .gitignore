@@ -1,0 +1,9 @@
+# Raw logger exports stay local; data/ holds the processed dataset the site reads.
+Raw/
+
+# Machine-specific editor settings (local venv path).
+.vscode/
+
+__pycache__/
+.ipynb_checkpoints/
+~$*.xlsx

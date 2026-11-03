@@ -1,0 +1,5 @@
+station_id,name,logger_id,logger_model,latitude,longitude,description
+z6-botanical,Rain and Soil at the Botanical Garden,z6-37245,METER ZL6,28.0664424,-80.6230416, Rain and Soil moisture at the the botanical garden
+z6-37246,Rain and Soil at Satellite Beach,z6-37246,METER ZL6,28.169532,-80.5914541, Rain and Soil moisture at the the Satellite Beach
+StageGaugeBot01,Water level 01 at Botanical Garden,22283907,HOBO MX2001,28.06731571,-80.62278671, Water level and temperature at the the botanical garden
+StageGaugeBot02,Water level 02 at Botanical Garden,22422395,HOBO MX2001,28.06664041,-80.62245225, Water level and temperature at the the botanical garden

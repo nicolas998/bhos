@@ -20,6 +20,8 @@ COMPANIONS = {
 AGGREGATIONS = {
     "precipitation": ["sum"],
     "water_level": ["mean", "max"],
+    "stage": ["mean", "max"],
+    "discharge": ["mean", "max"],
 }
 STAT_NAMES = {"sum": "total", "mean": "mean", "max": "maximum"}
 
@@ -27,6 +29,8 @@ STAT_NAMES = {"sum": "total", "mean": "mean", "max": "maximum"}
 UNITS = {
     "precipitation": {"mm": 1, "in": 1 / 25.4, "ft": 1 / 304.8},
     "water_level": {"m": 1, "ft": 1 / 0.3048},
+    "stage": {"ft": 1, "m": 0.3048},
+    "discharge": {"ft³/s": 1, "m³/s": 0.3048 ** 3},
 }
 FREQ_NAMES = {"5min": "5-minute", "15min": "15-minute", "1h": "hourly"}
 

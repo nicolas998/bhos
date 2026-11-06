@@ -33,9 +33,15 @@ DEFAULT_PLOTS = [  # (plot key, {widget key prefix: value})
 ]
 DEFAULT_PERIOD = (date(2026, 11, 1), date(2026, 11, 3))
 
-# Map marker colour per logger model (categorical slots 1 and 2).
-MODEL_COLORS = {"METER ZL6": [42, 120, 214], "HOBO MX2001": [235, 104, 52]}
-OTHER_COLOR = [98, 80, 214]
+# Map marker colour per logger model: BHOS loggers (categorical slots 1 and 2), then the public
+# networks (slots 3 and 4).
+MODEL_COLORS = {
+    "METER ZL6": [42, 120, 214],
+    "HOBO MX2001": [235, 104, 52],
+    "USGS stream gauge": [27, 175, 122],
+    "NWS ASOS": [98, 80, 214],
+}
+OTHER_COLOR = [120, 120, 120]
 
 # OpenStreetMap's standard tiles as a MapLibre style. Streamlit only accepts a style URL,
 # so the style is passed inline as a data: URL.

@@ -14,8 +14,10 @@ TIMEZONE = "America/New_York"
 
 # Display names where the snake_case variable name doesn't read well.
 LABELS = {
+    "discharge": "Discharge",
     "max_precip_rate": "Max precipitation rate",
     "precipitation": "Rainfall",
+    "stage": "Stage (gage height)",
     "temperature": "Water temperature",  # measured by the submerged water level loggers
 }
 

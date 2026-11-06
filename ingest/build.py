@@ -1,4 +1,4 @@
-"""Rebuild data/readings.parquet from every logger export in Raw/.
+"""Rebuild data/readings.parquet from every logger export in Raw/ and public gauge download in Raw/external/.
 
 Raw/ is the source of truth: the whole dataset is regenerated on each run, so
 overlapping exports, renamed stations and parser fixes never leave stale rows.
@@ -7,16 +7,18 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import hobo, zl6
+from . import asos, hobo, usgs, zl6
 from .common import COLUMNS
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = ROOT / "Raw"
+EXTERNAL_DIR = RAW_DIR / "external"  # public gauge data saved by `python -m ingest.fetch`
 DATA_DIR = ROOT / "data"
 READINGS = DATA_DIR / "readings.parquet"
 STATIONS = DATA_DIR / "stations.csv"
 
-PARSERS = [hobo, zl6]
+PARSERS = [hobo, zl6]  # logger exports (.xlsx), recognised by their sheets
+FILE_PARSERS = [asos, usgs]  # public gauge downloads, recognised by their file names
 
 # Readings of one series closer together than this are the same sample: overlapping exports of a
 # logger can disagree on a sample's time by a second. Loggers sample every 5 minutes or more.
@@ -25,6 +27,9 @@ STATION_COLUMNS = ["station_id", "name", "logger_id", "logger_model", "latitude"
 
 
 def parse_file(path):
+    for parser in FILE_PARSERS:
+        if parser.matches(path):
+            return parser.parse(path)
     xl = pd.ExcelFile(path)
     for parser in PARSERS:
         if parser.matches(xl.sheet_names):
@@ -58,11 +63,14 @@ def drop_repeats(readings):
 
 def main():
     files = sorted(p for p in RAW_DIR.glob("*.xlsx") if not p.name.startswith("~$"))
+    files += sorted(p for p in EXTERNAL_DIR.glob("*") if any(parser.matches(p) for parser in FILE_PARSERS))
     loggers, parts = {}, []
     for path in files:
         print(f"reading {path.name}")
         logger, readings = parse_file(path)
         loggers.setdefault(logger["logger_id"], logger)
+        if readings.empty:
+            continue
         parts.append(readings.assign(logger_id=logger["logger_id"]))
 
     DATA_DIR.mkdir(exist_ok=True)

@@ -3,3 +3,7 @@ z6-botanical,Rain and Soil at the Botanical Garden,z6-37245,METER ZL6,28.0664424
 z6-37246,Rain and Soil at Satellite Beach,z6-37246,METER ZL6,28.169532,-80.5914541, Rain and Soil moisture at the the Satellite Beach
 StageGaugeBot01,Water level 01 at Botanical Garden,22283907,HOBO MX2001,28.06731571,-80.62278671, Water level and temperature at the the botanical garden
 StageGaugeBot02,Water level 02 at Botanical Garden,22422395,HOBO MX2001,28.06664041,-80.62245225, Water level and temperature at the the botanical garden
+KMLB,Melbourne International Airport (NWS),MLB,NWS ASOS,28.1028,-80.6453,"NWS ASOS weather station, hourly rainfall from the Iowa Environmental Mesonet"
+USGS-02249007,"Eau Gallie River at Heather Glen Circle, Melbourne (USGS)",02249007,USGS stream gauge,28.12695888,-80.6467205,"USGS stream gauge, stage and discharge every 15 minutes (recent data provisional)"
+USGS-02249500,Crane Creek at Melbourne (USGS),02249500,USGS stream gauge,28.079167,-80.629722,"USGS stream gauge, stage and discharge every 15 minutes (recent data provisional)"
+USGS-02250030,Turkey Creek at Palm Bay (USGS),02250030,USGS stream gauge,28.01724054,-80.59588719,"USGS stream gauge, stage and discharge every 15 minutes (recent data provisional)"

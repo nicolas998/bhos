@@ -25,10 +25,13 @@ x_axis_sync = st.components.v2.component(
 # Range of the period slider.
 PERIOD_MIN, PERIOD_MAX = date(2025, 1, 1), date(2026, 12, 31)
 
-# What a first visit shows: rainfall at Satellite Beach over the Nov 2, 2026 flood, accumulated, in feet.
-DEFAULT_PLOT = ("z6-37246", "precipitation", None)
+# What a first visit shows over the Nov 2, 2026 flood, top to bottom: rainfall at the Botanical
+# Garden, accumulated, in inches, and the water level at StageGaugeBot01 in feet.
+DEFAULT_PLOTS = [  # (plot key, {widget key prefix: value})
+    (("z6-botanical", "precipitation", None), {"cumulative": True, "unit": "in"}),
+    (("StageGaugeBot01", "water_level", None), {"unit": "ft"}),
+]
 DEFAULT_PERIOD = (date(2026, 11, 1), date(2026, 11, 3))
-DEFAULT_OPTIONS = {"cumulative": True, "unit": "ft"}  # widget key prefix -> value
 
 # Map marker colour per logger model (categorical slots 1 and 2).
 MODEL_COLORS = {"METER ZL6": [42, 120, 214], "HOBO MX2001": [235, 104, 52]}
@@ -76,18 +79,20 @@ def add_plot(key):
 
 
 def open_default_view(catalog):
-    """Set up a first visit: DEFAULT_PLOT over DEFAULT_PERIOD with DEFAULT_OPTIONS, if that data exists."""
+    """Set up a first visit: the DEFAULT_PLOTS whose data exists, over DEFAULT_PERIOD."""
     state.station = state.station_picker = None
     state.plots = []  # newest first: {"id": int, "key": (station_id, variable, depth_cm)}
     state.next_id = 0
-    station_id, variable, _ = DEFAULT_PLOT
-    if not ((catalog["station_id"] == station_id) & (catalog["variable"] == variable)).any():
+    available = set(zip(catalog["station_id"], catalog["variable"]))
+    defaults = [(key, options) for key, options in DEFAULT_PLOTS if key[:2] in available]
+    if not defaults:
         return
-    state.station = state.station_picker = station_id
-    add_plot(DEFAULT_PLOT)
+    state.station = state.station_picker = defaults[0][0][0]
+    for key, options in reversed(defaults):  # add_plot puts each on top, so add the bottom one first
+        add_plot(key)
+        for prefix, value in options.items():
+            state[f"{prefix}_{state.plots[0]['id']}"] = value
     state.period = DEFAULT_PERIOD
-    for prefix, value in DEFAULT_OPTIONS.items():
-        state[f"{prefix}_{state.plots[0]['id']}"] = value
 
 
 def remove_plot(plot_id):
